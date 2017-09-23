@@ -4,11 +4,13 @@
  * and open the template in the editor.
  */
 package entity;
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 /**
  *
  * @author quangns
@@ -40,6 +42,9 @@ class QueryUser {
         this.Str2 = Str2;
     }
     
+    public QueryUser() {
+    }
+    
     //Add a account into system
     public static void InsertUser() throws SQLException{
         try(Connection conn = ConnectSQL.connectsql()){
@@ -53,18 +58,20 @@ class QueryUser {
     }
     
     //Search account with UserName
-    public static ResultSet SearchUserName() throws SQLException {
+    public static ArrayList<String> SearchUserName() throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             Statement st = conn.createStatement();
             ResultSet rs;
-            
+            ArrayList<String> user = new ArrayList<String>();
             rs = st.executeQuery("SELECT * FROM user WHERE UserName = '" + Str + "'");
-//            while (rs.next()) {
-//                String lastName = rs.getString("LastName");
-//                System.out.println(lastName);
-//            }
+            while (rs.next()) {
+                String username = rs.getString("UserName");
+                String password = rs.getString("PassWord");
+                user.add(username);
+                user.add(password);
+            }
             conn.close();
-            return rs;
+            return user;
         }
         catch(Exception e) {
             System.out.println("Do not connect to DB - Error: " +e);
@@ -79,10 +86,10 @@ class QueryUser {
             ResultSet rs;
             
             rs = st.executeQuery("SELECT * FROM user WHERE LastName = '" + Str + "'");
-//            while (rs.next()) {
-//                String Username = rs.getString("UserName");
-//                System.out.println(Username);
-//            }
+            while (rs.next()) {
+                String Username = rs.getString("UserName");
+                System.out.println(Username);
+            }
             conn.close();
             return rs;
         }
@@ -136,8 +143,11 @@ class QueryUser {
         }
     }
     
+    public static void checkUsername(String st) throws SQLException {
+        ArrayList<String> user = new QueryUser(st).SearchUserName();
+    }
+    
     public static void main(String[] args) throws SQLException {
-        QueryUser user = new QueryUser("ly", "nam", "anh", "43");
-        user.InsertUser();
+       new QueryUser().checkUsername("khai");
     }
 }
