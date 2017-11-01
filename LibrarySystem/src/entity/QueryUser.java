@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package entity;
-import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author quangns
  */
-class QueryUser {
+public class QueryUser {
     private static String ID;
     private static String FN;
     private static String LN;
@@ -67,8 +66,10 @@ class QueryUser {
             while (rs.next()) {
                 String username = rs.getString("UserName");
                 String password = rs.getString("PassWord");
+                String role = rs.getString("Role");
                 user.add(username);
                 user.add(password);
+                user.add(role);
             }
             conn.close();
             return user;
@@ -143,11 +144,33 @@ class QueryUser {
         }
     }
     
-    public static void checkUsername(String st) throws SQLException {
+    public static boolean CheckRsUsername(String st) throws SQLException {
         ArrayList<String> user = new QueryUser(st).SearchUserName();
+//        return !st.equals(user.get(0));
+        try {
+            return !st.equals(user.get(0));
+        } catch (Exception e) {
+            System.out.println("error: " + e);
+        }
+        return false;
+    }
+    
+    public static boolean CheckUsername(String st, String st2) throws SQLException {
+        ArrayList<String> user = new QueryUser(st).SearchUserName();
+        if(st.equals(user.get(0))){
+            if(st2.equals(user.get(1)))
+                return true;
+            else
+                return false;
+        }
+        return false;
     }
     
     public static void main(String[] args) throws SQLException {
-       new QueryUser().checkUsername("khai");
+       boolean check = QueryUser.CheckRsUsername("minh");
+       if(check)
+            System.out.println("chua duoc su dung");
+       else
+            System.out.println("da duoc su dung");
     }
 }
