@@ -56,7 +56,7 @@ public class QueryUser {
         }
     }
     
-    //Search account with UserName
+    //Search information account with Username
     public static ArrayList<String> SearchUserName() throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             Statement st = conn.createStatement();
@@ -100,7 +100,7 @@ public class QueryUser {
         return null;
     }
     
-    // Update password a account
+    // Change password a account
     public static void UpdatePW() throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             String query = "UPDATE user SET PassWord = ? WHERE UserName = ?";
@@ -144,33 +144,35 @@ public class QueryUser {
         }
     }
     
-    public static boolean CheckRsUsername(String st) throws SQLException {
-        ArrayList<String> user = new QueryUser(st).SearchUserName();
-//        return !st.equals(user.get(0));
-        try {
-            return !st.equals(user.get(0));
-        } catch (Exception e) {
-            System.out.println("error: " + e);
-        }
-        return false;
-    }
+    //Check username to register
+//    public static boolean CheckRsUsername(String st) throws SQLException {
+//        ArrayList<String> user = new QueryUser(st).SearchUserName();
+////        return !st.equals(user.get(0));
+//        try {
+//            return !st.equals(user.get(0));
+//        } catch (Exception e) {
+//            System.out.println("error: " + e);
+//        }
+//        return false;
+//    }
     
-    public static boolean CheckUsername(String st, String st2) throws SQLException {
-        ArrayList<String> user = new QueryUser(st).SearchUserName();
-        if(st.equals(user.get(0))){
-            if(st2.equals(user.get(1)))
-                return true;
-            else
-                return false;
-        }
-        return false;
-    }
+    // Check username to sign in
+//    public static boolean CheckUsername(String st, String st2) throws SQLException {
+//        ArrayList<String> user = new QueryUser(st).SearchUserName();
+//        if(st.equals(user.get(0))){
+//            if(st2.equals(user.get(1)))
+//                return true;
+//            else
+//                return false;
+//        }
+//        return false;
+//    }
     
-    public static void main(String[] args) throws SQLException {
-       boolean check = QueryUser.CheckRsUsername("minh");
-       if(check)
-            System.out.println("chua duoc su dung");
-       else
-            System.out.println("da duoc su dung");
-    }
+//    public static void main(String[] args) throws SQLException {
+//       boolean check = QueryUser.CheckRsUsername("minh");
+//       if(check)
+//            System.out.println("chua duoc su dung");
+//       else
+//            System.out.println("da duoc su dung");
+//    }
 }
