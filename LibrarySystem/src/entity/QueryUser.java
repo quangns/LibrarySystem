@@ -44,7 +44,11 @@ public class QueryUser {
     public QueryUser() {
     }
     
-    //Add a account into system
+    
+    /**
+     * Them tai khoan nguoi dung vao he thong
+     * @throws SQLException 
+     */
     public static void InsertUser() throws SQLException{
         try(Connection conn = ConnectSQL.connectsql()){
             Statement st = conn.createStatement();
@@ -56,7 +60,12 @@ public class QueryUser {
         }
     }
     
-    //Search information account with Username
+    
+    /**
+     * tim kiem thong tin nguoi dung theo username
+     * @return luu thong tin nguoi dung vao ArrayList
+     * @throws SQLException 
+     */
     public static ArrayList<String> SearchUserName() throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             Statement st = conn.createStatement();
@@ -80,13 +89,18 @@ public class QueryUser {
         return null;
     }
     
-    //Search account with Name of User
+    
+    /**
+     * Tim kiem thong tin nguoi dung theo ten cua nguoi do trong he thong
+     * @return cac username cua cac nguoi dung co cung ten tim kiem trong he thong
+     * @throws SQLException 
+     */
     public static ResultSet SearchName() throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             Statement st = conn.createStatement();
             ResultSet rs;
             
-            rs = st.executeQuery("SELECT * FROM user WHERE LastName = '" + Str + "'");
+            rs = st.executeQuery("SELECT * FROM user WHERE FirstName = '" + Str + "'");
             while (rs.next()) {
                 String Username = rs.getString("UserName");
                 System.out.println(Username);
@@ -100,7 +114,11 @@ public class QueryUser {
         return null;
     }
     
-    // Change password a account
+    
+    /**
+     * Thay doi mat khau 
+     * @throws SQLException 
+     */
     public static void UpdatePW() throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             String query = "UPDATE user SET PassWord = ? WHERE UserName = ?";
@@ -115,6 +133,13 @@ public class QueryUser {
         }
     }
     
+    
+    /**
+     * Them ma the muon cua nguoi dung vao he thong,
+     * khi nguoi dung moi duoc cap the hay lam lai the,
+     * sau khi nhap ma vao the, he thong se them ID cua the vao database
+     * @throws SQLException 
+     */
     //Update CardID of a account
     public static void UpdateCardID() throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
@@ -130,6 +155,11 @@ public class QueryUser {
         }
     }
     
+    
+    /**
+     * Xoa mot nguoi su dung theo username
+     * @throws SQLException 
+     */
     //Delete a account
     public static void DelUser() throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
@@ -144,6 +174,7 @@ public class QueryUser {
         }
     }
     
+    
     //Check username to register
 //    public static boolean CheckRsUsername(String st) throws SQLException {
 //        ArrayList<String> user = new QueryUser(st).SearchUserName();
@@ -156,17 +187,6 @@ public class QueryUser {
 //        return false;
 //    }
     
-    // Check username to sign in
-//    public static boolean CheckUsername(String st, String st2) throws SQLException {
-//        ArrayList<String> user = new QueryUser(st).SearchUserName();
-//        if(st.equals(user.get(0))){
-//            if(st2.equals(user.get(1)))
-//                return true;
-//            else
-//                return false;
-//        }
-//        return false;
-//    }
     
 //    public static void main(String[] args) throws SQLException {
 //       boolean check = QueryUser.CheckRsUsername("minh");

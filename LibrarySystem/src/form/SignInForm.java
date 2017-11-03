@@ -5,12 +5,14 @@
  */
 package form;
 
-import entity.QueryUser;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Controller.ControlAccount;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 /**
  *
  * @author quangns
@@ -54,6 +56,12 @@ public class SignInForm extends javax.swing.JFrame {
         TextUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TextUsernameActionPerformed(evt);
+            }
+        });
+
+        TextPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextPasswordActionPerformed(evt);
             }
         });
 
@@ -133,6 +141,7 @@ public class SignInForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BtRegisterActionPerformed
 
+    
     private void BtSignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSignInActionPerformed
         String name = TextUsername.getText();
         String password = String.valueOf(TextPassword.getPassword());
@@ -140,10 +149,32 @@ public class SignInForm extends javax.swing.JFrame {
             Boolean check = new ControlAccount().CheckSignIn(name, password);
             if(check)
                 System.out.println("sign in");
+            else
+                System.out.println("wrong");
         } catch (SQLException ex) {
             Logger.getLogger(SignInForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_BtSignInActionPerformed
+
+    
+    private void TextPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextPasswordActionPerformed
+        TextPassword.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar()==KeyEvent.VK_ENTER) {
+                    BtSignInActionPerformed(evt);
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+    }//GEN-LAST:event_TextPasswordActionPerformed
 
     /**
      * @param args the command line arguments

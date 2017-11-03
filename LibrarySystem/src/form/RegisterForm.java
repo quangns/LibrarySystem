@@ -5,6 +5,13 @@
  */
 package form;
 
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author quangns
@@ -72,8 +79,19 @@ public class RegisterForm extends javax.swing.JFrame {
             }
         });
 
+        TextPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextPasswordActionPerformed(evt);
+            }
+        });
+
         BtRegister.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         BtRegister.setText("Register");
+        BtRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtRegisterActionPerformed(evt);
+            }
+        });
 
         BtCancel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         BtCancel.setText("Cancel");
@@ -147,6 +165,45 @@ public class RegisterForm extends javax.swing.JFrame {
     private void TextLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextLastNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TextLastNameActionPerformed
+
+    private void TextPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextPasswordActionPerformed
+        TextPassword.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar()==KeyEvent.VK_ENTER) {
+                    BtRegisterActionPerformed(evt);
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                
+            }
+        });
+    }//GEN-LAST:event_TextPasswordActionPerformed
+
+    private void BtRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtRegisterActionPerformed
+        String firstname = TextFirstName.getText();
+        String lastname = TextLastName.getText();
+        String username = TextUserName.getText();
+        String password = String.valueOf(TextPassword.getPassword());
+        try {
+            boolean check = new Controller.ControlAccount().Register
+                                (firstname, lastname, username, password);
+            if(check)
+                System.out.println("register success");
+            else
+                System.out.println("username used");
+        } 
+        catch (Exception e) {
+            System.err.println("Error: " + e);
+        }
+    }//GEN-LAST:event_BtRegisterActionPerformed
 
     /**
      * @param args the command line arguments

@@ -10,49 +10,49 @@ package Controller;
  * @author quangns
  */
 public class ControlUser {
-    public String username;
-    public String password;
-    public String role;
-    public int cardID;
+    protected String username;
+    protected String password;
+    protected String role;
+    protected int cardID;
     
-    public ControlUser(String username, String password, String role, int cardID) {
+    ControlUser(String username, String password, String role, int cardID) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.cardID = cardID;
     }
     
-    public ControlUser() {}
+    ControlUser() {}
     
-    public void SetUsername(String username) {
+    void SetUsername(String username) {
         this.username = username;
     }
     
-    public String GetUsername() {
+    String GetUsername() {
         return this.username;
     }
     
-    public void SetPassword(String password) {
+    void SetPassword(String password) {
         this.password = password;
     }
     
-    public String GetPassword() {
+    String GetPassword() {
         return this.password;
     }
     
-    public void SetRole(String Role) {
+    void SetRole(String Role) {
         this.role = role;
     }
     
-    public String GetRole() {
+    String GetRole() {
         return this.role;
     }
     
-    public void SetCardID(int cardID) {
+    void SetCardID(int cardID) {
         this.cardID = cardID;
     }
     
-    public int GetCardID() {
+    int GetCardID() {
         return this.cardID;
     }
 }
