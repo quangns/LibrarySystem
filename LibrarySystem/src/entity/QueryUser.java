@@ -15,44 +15,22 @@ import java.util.ArrayList;
  * @author quangns
  */
 public class QueryUser {
-    private static String ID;
-    private static String FN;
-    private static String LN;
-    private static String UN;
-    private static String PW;
-    private static String CID;
-    private static String Role;
-    private static String Str;
-    private static String Str2;
-
-    public QueryUser(String FN, String LN, String UN, String PW) {
-        this.FN = FN;
-        this.LN = LN;
-        this.UN = UN;
-        this.PW = PW;
-    }
-
-    public QueryUser(String Str) {
-        this.Str = Str;
-    }
-    
-    public QueryUser(String Str, String Str2) {
-        this.Str = Str;
-        this.Str2 = Str2;
-    }
-    
-    public QueryUser() {
-    }
     
     
     /**
      * Them tai khoan nguoi dung vao he thong
+     * @param firstname ten nguoi dung dang ki
+     * @param lastname ho cua nguoi dung
+     * @param username ten tai khoan muon dang ki
+     * @param password mat khau nguoi dung muon dat
      * @throws SQLException 
      */
-    public static void InsertUser() throws SQLException{
+    public static void InsertUser(String firstname, String lastname, String username, 
+                                                String password) throws SQLException{
         try(Connection conn = ConnectSQL.connectsql()){
             Statement st = conn.createStatement();
-            st.executeUpdate("INSERT INTO user(FirstName, LastName, UserName, PassWord, Role) VALUES ('" + FN+ "','" + LN+"','"+UN+"','"+PW+"','user')");
+            st.executeUpdate("INSERT INTO user(FirstName, LastName, UserName, PassWord, Role) VALUES "
+                    + "('" + firstname+ "','" + lastname+"','"+username+"','"+password+"','user')");
             conn.close();
         }
         catch(Exception e) {
@@ -63,22 +41,25 @@ public class QueryUser {
     
     /**
      * tim kiem thong tin nguoi dung theo username
+     * @param username can tim kiem
      * @return luu thong tin nguoi dung vao ArrayList
      * @throws SQLException 
      */
-    public static ArrayList<String> SearchUserName() throws SQLException {
+    public static ArrayList<String> SearchUserName(String username) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             Statement st = conn.createStatement();
             ResultSet rs;
             ArrayList<String> user = new ArrayList<String>();
-            rs = st.executeQuery("SELECT * FROM user WHERE UserName = '" + Str + "'");
+            rs = st.executeQuery("SELECT * FROM user WHERE UserName = '" + username + "'");
             while (rs.next()) {
-                String username = rs.getString("UserName");
+                String name = rs.getString("UserName");
                 String password = rs.getString("PassWord");
                 String role = rs.getString("Role");
-                user.add(username);
+                String cardID = rs.getString("CardID");
+                user.add(name);
                 user.add(password);
                 user.add(role);
+                user.add(cardID);
             }
             conn.close();
             return user;
@@ -92,15 +73,16 @@ public class QueryUser {
     
     /**
      * Tim kiem thong tin nguoi dung theo ten cua nguoi do trong he thong
+     * @param name ten nguoi muon tim
      * @return cac username cua cac nguoi dung co cung ten tim kiem trong he thong
      * @throws SQLException 
      */
-    public static ResultSet SearchName() throws SQLException {
+    public static ResultSet SearchName(String name) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             Statement st = conn.createStatement();
             ResultSet rs;
             
-            rs = st.executeQuery("SELECT * FROM user WHERE FirstName = '" + Str + "'");
+            rs = st.executeQuery("SELECT * FROM user WHERE FirstName = '" + name + "'");
             while (rs.next()) {
                 String Username = rs.getString("UserName");
                 System.out.println(Username);
@@ -116,15 +98,17 @@ public class QueryUser {
     
     
     /**
-     * Thay doi mat khau 
+     * Thay doi mat khau
+     * @param oldpassword mat khau cu cua nguoi dung
+     * @param newpassword mat khau moi
      * @throws SQLException 
      */
-    public static void UpdatePW() throws SQLException {
+    public static void UpdatePW(String oldpassword, String newpassword) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             String query = "UPDATE user SET PassWord = ? WHERE UserName = ?";
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setString(1, Str);
-            ps.setString(2, Str2);
+            ps.setString(1, oldpassword);
+            ps.setString(2, newpassword);
             ps.executeUpdate();
             conn.close();
         }
@@ -138,15 +122,17 @@ public class QueryUser {
      * Them ma the muon cua nguoi dung vao he thong,
      * khi nguoi dung moi duoc cap the hay lam lai the,
      * sau khi nhap ma vao the, he thong se them ID cua the vao database
+     * @param cardid ma the cap cho nguoi dung
+     * @param username ten tai khoan duoc cap ma the
      * @throws SQLException 
      */
     //Update CardID of a account
-    public static void UpdateCardID() throws SQLException {
+    public static void UpdateCardID(String cardid, String username) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             String query = "UPDATE user SET CardID = ? WHERE UserName = ?";
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setString(1, Str);
-            ps.setString(2, Str2);
+            ps.setString(1, cardid);
+            ps.setString(2, username);
             ps.executeUpdate();
             conn.close();
         }
@@ -158,14 +144,15 @@ public class QueryUser {
     
     /**
      * Xoa mot nguoi su dung theo username
+     * @param username ten tai khoan cua nguoi dung
      * @throws SQLException 
      */
     //Delete a account
-    public static void DelUser() throws SQLException {
+    public static void DelUser(String username) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             String query = "DELETE FROM user WHERE UserName = ?";
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setString(1, Str);
+            ps.setString(1, username);
             ps.executeUpdate();
             conn.close();
         }

@@ -10,40 +10,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 /**
  *
  * @author quangns
  */
 public class QueryCard {
-    private static int CID;
-    private static Date ExpDate;
-    private static boolean Status;
-    private static int NumActive;
-    private static int year;
-    private static int month;
-    private static int day;
     
-    public QueryCard(int year, int month, int day, int NumActive) {
-        this.year = year;
-        this.month = month;
-        this.day = day;
-        this.NumActive = NumActive;
-    }
     
-    public QueryCard(int CID) {
-        this.CID = CID;
-    }
-    
-    public QueryCard(boolean Status, int CID) {
-        this.Status = Status;
-        this.CID = CID;
-    }
-    
-    //Add a card
-    public static void InsertCard() throws SQLException {
+    /**
+     * them ma the muon vao database
+     * @param year nam het han su dung the
+     * @param month thang het han su dung the
+     * @param day ngay het han su dung the
+     * @param numactive ma the cap cho user de active
+     * @throws SQLException 
+     */
+    public static void InsertCard(int year, int month, int day, int numactive) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()){
             Statement st = conn.createStatement();
-            st.executeUpdate("INSERT INTO card(ExpiredDate, NumActive) VALUES ('"+year+"-"+month+"-"+day+"'," +NumActive + ")");
+            st.executeUpdate("INSERT INTO card(ExpiredDate, NumActive) VALUES ('"+year+"-"+month+"-"+day+"'," +numactive + ")");
             conn.close();
         }
         catch(Exception e) {
@@ -51,21 +37,25 @@ public class QueryCard {
         }
     }
     
-    //Search card with CID
-    public static ResultSet SearchCard() throws SQLException {
+    
+    /**
+     * lay thong tin cua the
+     * @param cid ma the can lay
+     * @return
+     * @throws SQLException 
+     */
+    public static ArrayList<String> SearchCard(String cid) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             Statement st = conn.createStatement();
             ResultSet rs;
-            
-            rs = st.executeQuery("SELECT * FROM card WHERE CID = '" + CID + "'");
-//            while (rs.next()) {
-//                String stt = rs.getString("Status");
-//                System.out.println(stt);
-//                String num = rs.getString("NumActive");
-//                System.out.println(num);
-//            }
+            ArrayList<String> card = new ArrayList<String>();
+            rs = st.executeQuery("SELECT * FROM card WHERE CID = '" + cid + "'");
+            while (rs.next()) {
+                String stt = rs.getString("Status");
+                card.add(stt);
+            }
             conn.close();
-            return rs;
+            return card;
         }
         catch(Exception e) {
             System.out.println("Do not connect to DB - Error: " +e);
@@ -73,7 +63,12 @@ public class QueryCard {
         return null;
     }
     
-    //Search card with Status
+    
+    /**
+     * tim kiem cac the moi chua co trang thai de cap cho nguoi dung
+     * @return
+     * @throws SQLException 
+     */
     public static ResultSet SearchCardST() throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             Statement st = conn.createStatement();
@@ -83,7 +78,6 @@ public class QueryCard {
             while (rs.next()) {
                 String stt = rs.getString("CID");
                 String num = rs.getString("NumActive");
-                System.out.println("CID: " + stt + ", Number to Active: " + num);
             }
             conn.close();
             return rs;
@@ -94,12 +88,17 @@ public class QueryCard {
         return null;
     }
     
-    //Update status of card with Number for Active
-    public static void UpdateCardNA() throws SQLException {
+    
+    /**
+     * cap nhat trang thai da cap the cho nguoi dung
+     * @param numberactive ma da cap cho nguoi dung de active the
+     * @throws SQLException 
+     */
+    public static void UpdateCardNA(String numberactive) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             String query = "UPDATE card SET Status = 1, NumActive = null WHERE NumActive = ?";
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(1, CID);
+            ps.setString(1, numberactive);
             ps.executeUpdate();
             conn.close();
         }
@@ -108,13 +107,41 @@ public class QueryCard {
         }
     }
     
-    //Update status of card with CID
-    public static void UpdateCardCID() throws SQLException {
+    public static ArrayList<String> GetCard(String number) throws SQLException {
+        try(Connection conn = ConnectSQL.connectsql()) {
+            Statement st = conn.createStatement();
+            ResultSet rs;
+            ArrayList<String> card = new ArrayList<String>();
+            rs = st.executeQuery("SELECT * FROM card WHERE NumActive = " + number);
+            while (rs.next()) {
+                String cid = rs.getString("CID");
+                String status = rs.getString("Status");
+                String num = rs.getString("NumActive");
+                card.add(cid);
+                card.add(status);
+                card.add(num);
+            }
+            conn.close();
+            return card;
+        }
+        catch(Exception e) {
+            System.out.println("Do not connect to DB - Error: " +e);
+        }
+        return null;
+    }
+    
+    /**
+     * cap nhat trang thai cua the, da tra sach hay muon sach
+     * @param status trang thai cua the
+     * @param cid ma the
+     * @throws SQLException 
+     */
+    public static void UpdateCardCID(boolean status, int cid) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             String query = "UPDATE card SET Status = ? WHERE CID = ?";
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setBoolean(1, Status);
-            ps.setInt(2, CID);
+            ps.setBoolean(1, status);
+            ps.setInt(2, cid);
             ps.executeUpdate();
             conn.close();
         }
@@ -123,22 +150,22 @@ public class QueryCard {
         }
     }
     
-   //Delete a card
-    public static void DelCard() throws SQLException {
+    
+    /**
+    * xoa the muon
+    * @param cid ma the can xoa
+    * @throws SQLException 
+    */
+    public static void DelCard(int cid) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             String query = "DELETE FROM card WHERE CID = ?";
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(1, CID);
+            ps.setInt(1, cid);
             ps.executeUpdate();
             conn.close();
         }
         catch(Exception e) {
             System.out.println("Do not connect to DB - Error: " +e);
         }
-    }
-    
-    public static void main(String[] args) throws SQLException {
-        QueryCard card = new QueryCard(13);
-        card.DelCard();
     }
 }
