@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package form;
+import Controller.ControlBook;
 import org.eclipse.persistence.internal.helper.Helper;
 import entity.QueryBook;
 import entity.Help;
@@ -55,6 +56,7 @@ public class ManageBookForm extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
+        btnAddcopy = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblBook = new javax.swing.JTable();
@@ -113,7 +115,7 @@ public class ManageBookForm extends javax.swing.JFrame {
 
         btnCancel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Exit.png"))); // NOI18N
-        btnCancel.setText("Sign out");
+        btnCancel.setText("Exit");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -129,6 +131,15 @@ public class ManageBookForm extends javax.swing.JFrame {
             }
         });
 
+        btnAddcopy.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnAddcopy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/New.png"))); // NOI18N
+        btnAddcopy.setText("Add copy");
+        btnAddcopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddcopyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -140,19 +151,21 @@ public class ManageBookForm extends javax.swing.JFrame {
                     .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddcopy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(btnAddcopy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -192,7 +205,7 @@ public class ManageBookForm extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbNumber)
@@ -214,7 +227,7 @@ public class ManageBookForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE)
+                .addGap(0, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -224,19 +237,27 @@ public class ManageBookForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        String column;
-        switch(col + 1){
-            case 2: column = "title"; break;
-            case 3: column = "publisher"; break;
-            case 4: column = "author"; break;
-            case 5: column = "price"; break;
-            default: JOptionPane.showMessageDialog(null, "You cannot edit this column!"); return;
-        }
-        String value = JOptionPane.showInputDialog("Input new data for " + column + " of book " + (String) tblBook.getValueAt(row, 0), tblBook.getValueAt(row, col));
-        int bid = Integer.parseInt((String) tblBook.getValueAt(row, 0));
+//        String column;
+//        switch(col + 1){
+//            case 2: column = "title"; break;
+//            case 3: column = "publisher"; break;
+//            case 4: column = "author"; break;
+//            case 5: column = "price"; break;
+//            default: JOptionPane.showMessageDialog(null, "You cannot edit this column!"); return;
+//        }
+//        String value = JOptionPane.showInputDialog("Input new data for " + column + " of book " + (String) tblBook.getValueAt(row, 0), tblBook.getValueAt(row, col));
+//        int bid = Integer.parseInt((String) tblBook.getValueAt(row, 0));
         try {
-            QueryBook.UpdateBook(bid, column, value);
-        } catch (SQLException ex) {
+            int row = tblBook.getSelectedRow();
+            String bid = tblBook.getModel().getValueAt(row, 0).toString();
+            String title = tblBook.getModel().getValueAt(row, 1).toString();
+            String publisher = tblBook.getModel().getValueAt(row, 2).toString();
+            String author = tblBook.getModel().getValueAt(row, 3).toString();
+            String price = tblBook.getModel().getValueAt(row, 4).toString();
+            new EditBookForm(bid, title, publisher, author, price).setVisible(true);
+            this.setVisible(false);
+//            QueryBook.UpdateBook(bid, column, value);
+        } catch (Exception ex) {
             Logger.getLogger(ManageBookForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         refreshTable();
@@ -246,6 +267,7 @@ public class ManageBookForm extends javax.swing.JFrame {
         AddBookForm form = new AddBookForm();
         form.setVisible(true);
         form.setLocationRelativeTo(null);
+        this.setVisible(false);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -274,10 +296,24 @@ public class ManageBookForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        SignInForm form = new SignInForm();
+        ManageForm form = new ManageForm();
         form.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnAddcopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddcopyActionPerformed
+        try {
+            int row = tblBook.getSelectedRow();
+            int bid = Integer.parseInt(tblBook.getModel().getValueAt(row, 0).toString());
+//            int number = 2;
+            String str = (String) JOptionPane.showInputDialog(null, "number: ", "how many do you want", JOptionPane.PLAIN_MESSAGE, null, null, "0");
+            int number = Integer.parseInt(str);
+            new ControlBook().InsertBookcp(bid, number);
+//            QueryBook.UpdateBook(bid, column, value);
+        } catch (Exception ex) {
+            Logger.getLogger(ManageBookForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAddcopyActionPerformed
 
     private void refreshTable() {
         tblBook.setModel(Help.createTableModel("SELECT * FROM book"));
@@ -344,6 +380,7 @@ public class ManageBookForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAddcopy;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;

@@ -9,6 +9,7 @@ import entity.QueryBookcp;
 import entity.StoreBook;
 import entity.StoreBookcp;
 import form.BorrowedForm;
+import form.EditBookForm;
 import form.SearchBookForm;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -34,6 +35,12 @@ public class ControlBook{
         this.bookinterface = bookinterface;
     }
     
+    public ControlBook() {
+    }
+
+    public ControlBook(EditBookForm bookinterface) {
+        this.bookinterface = (BookInterface) bookinterface;
+    }
     
     /**
      * kiem tra ten sach da co trong database chua
@@ -136,5 +143,27 @@ public class ControlBook{
         }
         else
             bookinterface.ShowErr();
+    }
+    
+    public void GetInfoEditBook(String bid, String tilte, String publisher, String author, String price) {
+        StoreBook editbook = new StoreBook();
+        editbook.setBid(bid);
+        editbook.setAuthor(author);
+        editbook.setPrice(price);
+        editbook.setTitle(tilte);
+        editbook.setPublisher(publisher);
+        bookinterface.ShowEditBooks(editbook);
+    }
+    
+    public void UpdateBook(StoreBook editbook) throws SQLException {
+        new QueryBook().UpdateBook(editbook);
+    }
+    
+    public void InsertBook(String title, String publisher, String author, int price) throws SQLException {
+        new QueryBook().InsertBook(title, publisher, author, price);
+    }
+    
+    public void InsertBookcp(int bid, int number) throws SQLException {
+        new QueryBookcp().InsertCopy(bid, number);
     }
 }

@@ -10,9 +10,9 @@ package entity;
  * @author quangns
  */
 public class StoreCard {
-    private static String CID;
-    private static String Status;
-    private static String NumActive;
+    private String CID;
+    private String Status;
+    private String NumActive;
 
     public String getCID() {
         return CID;
@@ -27,7 +27,7 @@ public class StoreCard {
     }
 
     public void setStatus(String Status) {
-        StoreCard.Status = Status;
+        this.Status = Status;
     }
 
     public String getNumActive() {
@@ -35,7 +35,7 @@ public class StoreCard {
     }
 
     public void setNumActive(String NumActive) {
-        StoreCard.NumActive = NumActive;
+        this.NumActive = NumActive;
     }
     
 }

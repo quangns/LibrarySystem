@@ -56,5 +56,4 @@ public class StoreBook {
         this.price = price;
     }
     
-    
 }

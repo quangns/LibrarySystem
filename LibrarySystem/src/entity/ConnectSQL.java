@@ -19,7 +19,7 @@ class ConnectSQL {
             Class.forName("com.mysql.jdbc.Driver");
 //          Create Connection variable in order to connect to database
             Connection conn = null;
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/librarysystem", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/librarysystem?useUnicode=yes&characterEncoding=UTF-8", "root", "");
             System.out.println("Database in connected!");
             return conn;
 //            Statement st = conn.createStatement();

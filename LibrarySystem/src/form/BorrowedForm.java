@@ -8,6 +8,7 @@ package form;
 import Controller.BookInterface;
 import Controller.ControlAccount;
 import Controller.ControlBook;
+import entity.StoreBook;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -255,6 +256,11 @@ public class BorrowedForm extends javax.swing.JFrame implements BookInterface{
 
     @Override
     public void ShowErr() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void ShowEditBooks(StoreBook book) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -5,6 +5,7 @@
  */
 package form;
 
+import Controller.ControlBook;
 import entity.QueryBook;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -182,7 +183,8 @@ public class AddBookForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        dispose();
+        this.setVisible(false);
+        new ManageBookForm().setVisible(true);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -191,8 +193,11 @@ public class AddBookForm extends javax.swing.JFrame {
         String author = txtAuthor.getText();
         int price = Integer.parseInt(txtPrice.getText());
         try {
-            QueryBook.InsertBook(title, publisher, author, price);
-            System.out.println("Insert Successfully");
+            new ControlBook().InsertBook(title, publisher, author, price);
+            txtTitle.setText("");
+            txtPublisher.setText("");
+            txtAuthor.setText("");
+            txtPrice.setText("");
         } catch (SQLException ex) {
             Logger.getLogger(AddBookForm.class.getName()).log(Level.SEVERE, null, ex);
         }

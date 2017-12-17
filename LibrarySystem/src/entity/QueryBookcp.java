@@ -24,7 +24,7 @@ public class QueryBookcp {
      * @param bid ma cua sach chinh trong thu vien
      * @throws SQLException 
      */
-    public static void InsertCopy(int number, int bid) throws SQLException {
+    public static void InsertCopy(int bid, int number) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()){
             Statement st = conn.createStatement();
             for(int i=0; i<number;i++){

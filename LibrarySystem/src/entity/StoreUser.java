@@ -10,10 +10,10 @@ package entity;
  * @author quangns
  */
 public class StoreUser {
-    private static String username;
-    private static String password;
-    private static String role;
-    private static String cardID;
+    private String username;
+    private String password;
+    private String role;
+    private String cardID;
 
     public String getUsername() {
         return username;

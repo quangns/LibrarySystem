@@ -27,12 +27,21 @@ public class QueryBook {
      */
     public static void InsertBook(String title, String publisher, String author, int price) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()){
-            Statement st = conn.createStatement();
-            st.executeUpdate("INSERT INTO book(Title, Publisher, Author, Price) VALUES ('" + title+ "','" + publisher+"','"+author+"',"+price+")");
+//            Statement st = conn.createStatement();
+            String query = "INSERT INTO book(Title, Publisher, Author, Price) VALUES (?, ?, ?, ?)";
+//            st.executeUpdate(query);
+//            String query = "UPDATE book SET Title = ?, Publisher = ?, Author = ?, Price = ? WHERE bid = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, title);
+            ps.setString(2, publisher);
+            ps.setString(3, author);
+            ps.setInt(4, price);
+//            ps.setString(5, bid);
+            ps.executeUpdate();
             conn.close();
         }
         catch(Exception e) {
-            System.out.print("Do not connect to DB - Error: " +e);
+            System.out.println("Do not connect to DB - Error: " +e);
         }
     }
     
@@ -131,17 +140,30 @@ public class QueryBook {
         }
     }
     
-    public static void UpdateBook(int bid, String column, String value) throws SQLException {
+    public static void UpdateBook(StoreBook book) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
-            String query = "UPDATE book SET " + column + " = ? WHERE bid = ?";
+            int bid = Integer.parseInt(book.getBid());
+            String title = book.getTitle();
+            String author = book.getAuthor();
+            String publisher = book.getPublisher();
+            int price = Integer.parseInt(book.getPrice());
+            String query = "UPDATE book SET Title = ?, Publisher = ?, Author = ?, Price = ? WHERE bid = ?";
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setString(1, value);
-            ps.setInt(2, bid);
+            ps.setString(1, title);
+            System.out.println(title.length());
+            ps.setString(2, publisher);
+            ps.setString(3, author);
+            ps.setInt(4, price);
+            ps.setInt(5, bid);
             ps.executeUpdate();
             conn.close();
         }
-        catch(Exception e) {
+        catch(SQLException e) {
             System.out.println("Do not connect to DB - Error: " + e);
         }
+    }
+    
+    public static void main(String[] args) throws SQLException {
+        new QueryBook().InsertBook("đừng để tách cà phê nguội", "không có", "không", 30);
     }
 }

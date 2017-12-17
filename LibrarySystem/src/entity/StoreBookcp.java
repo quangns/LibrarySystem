@@ -10,42 +10,41 @@ package entity;
  * @author quangns
  */
 public class StoreBookcp {
-    private static String CPID;
-    private static String CID;
-    private static String BID;
-    private static String Status;
+    private String CPID;
+    private String CID;
+    private String BID;
+    private String Status;
 
-    public static String getCPID() {
+    public String getCPID() {
         return CPID;
     }
 
-    public static void setCPID(String CPID) {
-        StoreBookcp.CPID = CPID;
+    public void setCPID(String CPID) {
+        this.CPID = CPID;
     }
 
-    public static String getCID() {
+    public String getCID() {
         return CID;
     }
 
-    public static void setCID(String CID) {
-        StoreBookcp.CID = CID;
+    public void setCID(String CID) {
+        this.CID = CID;
     }
 
-    public static String getBID() {
+    public String getBID() {
         return BID;
     }
 
-    public static void setBID(String BID) {
-        StoreBookcp.BID = BID;
+    public void setBID(String BID) {
+        this.BID = BID;
     }
 
-    public static String getStatus() {
+    public String getStatus() {
         return Status;
     }
 
-    public static void setStatus(String Status) {
-        StoreBookcp.Status = Status;
+    public void setStatus(String Status) {
+        this.Status = Status;
     }
-    
     
 }

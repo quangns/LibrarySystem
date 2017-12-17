@@ -7,6 +7,7 @@ package form;
 
 import Controller.BookInterface;
 import Controller.ControlBook;
+import entity.StoreBook;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
@@ -371,5 +372,10 @@ public class SearchBookForm extends javax.swing.JFrame implements BookInterface{
     @Override
     public void ShowErr() {
         JOptionPane.showMessageDialog(null, "Xin loi ban! Sach trong kho da het");
+    }
+
+    @Override
+    public void ShowEditBooks(StoreBook book) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
