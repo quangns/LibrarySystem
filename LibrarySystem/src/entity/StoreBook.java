@@ -10,17 +10,17 @@ package entity;
  * @author quangns
  */
 public class StoreBook {
-    private String bid;
+    private int bid;
     private String title;
     private String publisher;
     private String author;
-    private String price;
+    private int price;
 
-    public String getBid() {
+    public int getBid() {
         return bid;
     }
 
-    public void setBid(String bid) {
+    public void setBid(int bid) {
         this.bid = bid;
     }
 
@@ -48,11 +48,11 @@ public class StoreBook {
         this.author = author;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
     

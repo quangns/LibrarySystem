@@ -10,6 +10,7 @@ import entity.StoreBook;
 import entity.StoreBookcp;
 import form.BorrowedForm;
 import form.EditBookForm;
+import form.NewStart;
 import form.SearchBookForm;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -22,12 +23,17 @@ import java.util.logging.Logger;
  * @author quangns
  */
 public class ControlBook{
-    private static final StoreBook books = new StoreBook();
+    private static StoreBook books = new StoreBook();
     private static ArrayList<String> book = new ArrayList<String>();
+    private ArrayList<StoreBook> stbook = new ArrayList<StoreBook>();
     private static StoreBookcp copy = new StoreBookcp();
     private BookInterface bookinterface;
 
     public ControlBook(SearchBookForm bookinterface) {
+        this.bookinterface = bookinterface;
+    }
+    
+    public ControlBook(NewStart bookinterface) {
         this.bookinterface = bookinterface;
     }
     
@@ -49,13 +55,8 @@ public class ControlBook{
      * @throws SQLException 
      */
     private boolean CheckStoreBook(String title) throws SQLException {
-        book = (ArrayList<String>) QueryBook.SearchTitle(title);
-        for (int i = 0; i < book.size(); i++) {
-            String get = book.get(i);
-//            System.out.println(book.get(i));
-        }
-        //System.out.println(book.get(1));
-        return (!book.isEmpty());
+        stbook = QueryBook.SearchTitle(title);
+        return (!stbook.isEmpty());
     }
     
     
@@ -66,23 +67,24 @@ public class ControlBook{
     private void GetInfoBook(String title) throws SQLException {
 //        ArrayList<String> book = QueryBook.SearchTitle(title);
         books.setTitle(book.get(0));
-        books.setBid(book.get(1));
+//        books.setBid(book.get(1));
         books.setAuthor(book.get(2));
         books.setPublisher(book.get(3));
-        books.setPrice(book.get(4));
+//        books.setPrice(book.get(4));
     }
     
     public void SearchBook(String title) {
         try {
-            int count = book.size();
+            int count = stbook.size();
             if(CheckStoreBook(title)){
-                for(int i =0; i< book.size(); i=i+5){
-                    String name = book.get(i);
-                    String bid = book.get(i+1);
-                    String author = book.get(i+2);
-                    String publisher = book.get(i+3);
-                    String price =book.get(i+4);
-                    bookinterface.ShowBooks(bid, name, author, publisher, price);
+                for(int i =0; i< stbook.size(); i++){
+                    StoreBook showbook = stbook.get(i);
+                    String name = stbook.get(i).getTitle();
+                    String bid = Integer.toString(stbook.get(i).getBid());
+                    String author = stbook.get(i).getAuthor();
+                    String publisher = stbook.get(i).getPublisher();
+                    String price = Integer.toString(stbook.get(i).getPrice());
+                    bookinterface.ShowBooks(bid, title, author, publisher, price);
                 }
             }
         } catch (SQLException ex) {
@@ -145,14 +147,16 @@ public class ControlBook{
             bookinterface.ShowErr();
     }
     
-    public void GetInfoEditBook(String bid, String tilte, String publisher, String author, String price) {
+    public void GetInfoEditBook(String stbid, String title, String publisher, String author, String stprice) {
         StoreBook editbook = new StoreBook();
+        int bid = Integer.parseInt(stbid);
+        int price = Integer.parseInt(stprice);
         editbook.setBid(bid);
         editbook.setAuthor(author);
         editbook.setPrice(price);
-        editbook.setTitle(tilte);
+        editbook.setTitle(title);
         editbook.setPublisher(publisher);
-        bookinterface.ShowEditBooks(editbook);
+        bookinterface.ShowBooks(stbid, title, publisher, author, stprice);
     }
     
     public void UpdateBook(StoreBook editbook) throws SQLException {

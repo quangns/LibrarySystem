@@ -188,7 +188,7 @@ public class EditBookForm extends javax.swing.JFrame implements BookInterface{
         String title = txtTitle.getText();
         String publisher = txtPublisher.getText();
         String author = txtAuthor.getText();
-        String price = txtPrice.getText();
+        int price = Integer.parseInt(txtPrice.getText());
         try {
             editbook.setTitle(title);
             editbook.setAuthor(author);
@@ -254,22 +254,19 @@ public class EditBookForm extends javax.swing.JFrame implements BookInterface{
     private javax.swing.JTextField txtTitle;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void ShowBooks(String bid, String title, String author, String publisher, String price) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     @Override
     public void ShowErr() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void ShowEditBooks(StoreBook book) {
-        txtTitle.setText(book.getTitle());
-        txtAuthor.setText(book.getAuthor());
-        txtPrice.setText(book.getPrice());
-        txtPublisher.setText(book.getPublisher());
-        editbook = book;
+    public void ShowBooks(String bid, String title, String author, String publisher, String price) {
+        txtTitle.setText(title);
+        txtAuthor.setText(author);
+        txtPrice.setText(price);
+        txtPublisher.setText(publisher);
+        editbook.setBid(Integer.parseInt(bid));
     }
+
 }

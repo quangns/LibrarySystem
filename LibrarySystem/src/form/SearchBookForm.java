@@ -310,6 +310,8 @@ public class SearchBookForm extends javax.swing.JFrame implements BookInterface{
         //xoa du lieu trong bang.
         
         try{
+//            String stbid = Integer.toString(bid);
+//            String stprice = Integer.toString(price);
             String[] rowshow = {bid, title, author, publisher, price};
             row = rowshow;
             DefaultTableModel model = (DefaultTableModel)FieldTable.getModel();
@@ -374,8 +376,4 @@ public class SearchBookForm extends javax.swing.JFrame implements BookInterface{
         JOptionPane.showMessageDialog(null, "Xin loi ban! Sach trong kho da het");
     }
 
-    @Override
-    public void ShowEditBooks(StoreBook book) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

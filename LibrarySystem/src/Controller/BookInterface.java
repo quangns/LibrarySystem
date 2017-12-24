@@ -22,5 +22,4 @@ public interface BookInterface {
      */
     public void ShowBooks(String bid, String title, String author, String publisher, String price);
     public void ShowErr();
-    public void ShowEditBooks(StoreBook book);
 }

@@ -45,27 +45,40 @@ public class QueryBook {
         }
     }
     
-    //Search book with Title
-    public static ArrayList<String> SearchTitle(String title) throws SQLException {
+    /**
+     * Tim kiem sach theo ki tu, tim ra cac quyen sach chua chuoi ki tu da tra
+     * @param str chuoi ki tu truy van sql
+     * @return mang chua cac quyen sach co kieu la storebook
+     * @throws SQLException 
+     */
+    public static ArrayList<StoreBook> SearchTitle(String str) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
-            Statement st = conn.createStatement();
+            String query = "SELECT * FROM book WHERE MATCH (Title, Author,"
+                    + " Publisher) AGAINST (? IN NATURAL LANGUAGE MODE)";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, str);
+//            Statement st = conn.createStatement();
             ResultSet rs;
-            ArrayList<String> book = new ArrayList<String>();
-            rs = st.executeQuery("SELECT * FROM book WHERE Title LIKE '%" + title + "%'");
+            ArrayList<StoreBook> listbook = new ArrayList<StoreBook>();
+            
+            rs = ps.executeQuery();
+//            rs = st.executeQuery("SELECT * FROM book WHERE Title LIKE '%" + title + "%'");
             while (rs.next()) {
+                StoreBook book = new StoreBook();
                 String name = rs.getString("Title");
-                String bid = rs.getString("BID");
+                int bid = rs.getInt("BID");
                 String author = rs.getString("Author");
                 String publisher = rs.getString("Publisher");
-                String price = rs.getString("Price");
-                book.add(name);
-                book.add(bid);
-                book.add(author);
-                book.add(publisher);
-                book.add(price);
+                int price = rs.getInt("Price");
+                book.setBid(bid);
+                book.setAuthor(author);
+                book.setPublisher(publisher);
+                book.setPrice(price);
+                book.setTitle(name);
+                listbook.add(book);
             }
             conn.close();
-            return book;
+            return listbook;
         }
         catch(Exception e) {
             System.out.println("Do not connect to DB - Error: " +e);
@@ -73,7 +86,7 @@ public class QueryBook {
         return null;
     }
     
-    //Search book with Author
+    //Search book with BID
     public static ArrayList<String> SearchBID(String bid) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
             Statement st = conn.createStatement();
@@ -142,11 +155,11 @@ public class QueryBook {
     
     public static void UpdateBook(StoreBook book) throws SQLException {
         try(Connection conn = ConnectSQL.connectsql()) {
-            int bid = Integer.parseInt(book.getBid());
+            int bid = book.getBid();
             String title = book.getTitle();
             String author = book.getAuthor();
             String publisher = book.getPublisher();
-            int price = Integer.parseInt(book.getPrice());
+            int price = book.getPrice();
             String query = "UPDATE book SET Title = ?, Publisher = ?, Author = ?, Price = ? WHERE bid = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, title);
@@ -164,6 +177,6 @@ public class QueryBook {
     }
     
     public static void main(String[] args) throws SQLException {
-        new QueryBook().InsertBook("đừng để tách cà phê nguội", "không có", "không", 30);
+        new QueryBook().SearchTitle("tony");
     }
 }
